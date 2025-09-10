@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROASTER - The Ultimate Crypto Roast Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fedd59;
+            --text-color: #ff6347;
+            --accent-color: #ffde59;
+            --box-bg: rgba(0, 0, 0, 0.1);
+            --section-bg: rgba(255, 255, 255, 0.5);
+            --header-bg: #fff;
+        }
+
+        @keyframes wiggle {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes shake-animation {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        body {
+            font-family: 'Bangers', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .background-meme {
+            position: absolute;
+            width: 150px;
+            height: auto;
+            opacity: 0.15;
+            z-index: 1;
+            animation: float 4s infinite ease-in-out;
+        }
+
+        .shake-animation {
+            animation: shake-animation 0.5s cubic-bezier(.36, .07, .19, .97) both;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            padding-bottom: 2rem;
+            border-bottom: 4px solid #000;
+            margin-bottom: 2rem;
+        }
+
+        .roaster-logo-image {
+            width: 250px;
+            height: auto;
+            display: block;
+            margin: 0 auto 1rem;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-shadow:
+                -2px -2px 0 #000,
+                2px -2px 0 #000,
+                -2px 2px 0 #000,
+                2px 2px 0 #000,
+                0 0 10px var(--accent-color),
+                0 0 20px var(--accent-color);
+            animation: wiggle 0.5s infinite ease-in-out;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #000;
+            margin-top: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+            display: inline-block;
+        }
+
+        .social-link {
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .social-link img {
+            width: 40px;
+            height: auto;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .social-link img:hover {
+            transform: scale(1.1);
+        }
+
+        .roast-box {
+            background: var(--box-bg);
+            border: 3px dashed #000;
+            border-radius: 15px;
+            padding: 2rem;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .roast-text {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000;
+            opacity: 0.8;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+        }
+
+        .generate-btn {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 1rem 3rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 15px var(--accent-color), 0 0 30px var(--accent-color), 0 0 5px rgba(0, 0, 0, 0.4);
+        }
+
+        .generate-btn:hover {
+            transform: scale(1.05) rotate(-3deg);
+            box-shadow: 0 0 25px var(--accent-color), 0 0 50px var(--accent-color), 0 0 10px rgba(0, 0, 0, 0.6);
+        }
+
+        .token-address-box {
+            background: var(--box-bg);
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 2rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .token-address-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .token-address-box p {
+            margin: 0;
+            font-size: 1rem;
+            color: #000;
+            font-weight: bold;
+            text-shadow: none;
+        }
+
+        .section {
+            background-color: var(--section-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 3px dashed #000;
+            margin-bottom: 3rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: left;
+        }
+        
+        .section h2 {
+            text-align: center;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            text-shadow: 2px 2px 0 #000;
+            margin-bottom: 1.5rem;
+        }
+
+        .lore-text p {
+            font-family: Arial, sans-serif;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: #333;
+            text-shadow: none;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .roadmap-item .icon {
+            font-size: 2rem;
+            min-width: 50px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .roadmap-item h3 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .roadmap-item p {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            color: #555;
+            text-shadow: none;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid #000;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .team-member h3 {
+            font-size: 1.5rem;
+            color: #000;
+        }
+
+        .team-member p {
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            color: #444;
+        }
+
+        footer {
+            margin-top: 5rem;
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: #888;
+            font-size: 0.8rem;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Randomly floating meme characters in the background -->
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 10%; left: 5%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 30%; left: 80%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 55%; left: 15%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 75%; left: 60%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 20%; left: 45%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 85%; left: 30%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 40%; left: 90%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 60%; left: 50%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 5%; left: 70%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 90%; left: 10%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 25%; left: 25%;">
+    <img src="x (62).png" alt="Roaster logo image" class="background-meme" style="top: 70%; left: 40%;">
+
+    <div class="container">
+        <header>
+            <div>
+                <!-- Image added here -->
+                <img src="x (62).png" alt="Roaster logo image" class="roaster-logo-image">
+                <h1 class="logo">ROASTER</h1>
+                <p class="tagline">Generate a random roast and share it with your crypto community to laugh together. Or cry.
+                    <!-- Insert the Twitter/X link here. -->
+                    <a href="https://twitter.com/Roaster_Memecoin" target="_blank" class="social-link">
+                        <img src="xlogo.png" alt="X (Twitter) Icon">
+                    </a>
+                </p>
+            </div>
+        </header>
+
+        <main>
+            <!-- Lore Section -->
+            <section id="lore" class="section">
+                <h2>The Lore: A Degen's Tale</h2>
+                <div class="lore-text">
+                    <p>In the desolate landscape of the post-bull run era, a great sadness fell upon the degen world. The calls of "WAGMI" turned to whispers of "GM," and the once vibrant crypto towns were haunted by the ghosts of rug pulls and the echoes of "Wen Lambo?" A silent, digital depression took hold, fueled by endless red charts and the bitter taste of missed airdrops.</p>
+                    <p>Amidst this despair, a prophecy was spoken in the deepest depths of the dankest Telegram channels. It foretold of a hero not of riches, but of wit. A legend not of a pump, but of a punchline. This hero would not bring another utility coin or a pointless JPEG collection. Instead, it would unleash a new era of joyous brutality: **The Roast.**</p>
+                    <p>ROASTER was born from this void. Our mission is not to make you rich (although, who knows?), but to make you laugh. We are the antidote to the endless shilling, the cure for terminal seriousness. We believe that a well-timed, savage roast can do more for community morale than any whitepaper. We encourage our holders to take the roasts generated on this sacred site and use them to spark joy and chaos across the Twitterverse.</p>
+                    <p>This is more than a coin; it's a movement. A movement to bring back the good times, one burn at a time.</p>
+                </div>
+            </section>
+            
+            <hr>
+
+            <!-- Roast Generator Section -->
+            <section id="roast-generator" class="section">
+                <h2>The Roast Generator</h2>
+                <div id="roast-box" class="roast-box">
+                    <p id="roast-text" class="roast-text">Click the button to send the first roast to the moon.</p>
+                </div>
+                <button id="generate-btn" class="generate-btn">GENERATE ROAST</button>
+
+                <!-- New text box for the token address -->
+                <div id="token-address-box" class="token-address-box">
+                    <p id="token-address">CA: 0xAbcDeFg1234567890aBcDeFg1234567890aBcDeF</p>
+                </div>
+            </section>
+            
+            <hr>
+            
+            <!-- Roadmap Section -->
+            <section id="roadmap" class="section">
+                <h2>Official Q3-Q4 2024 Roadmap</h2>
+                <div class="roadmap-item">
+                    <div class="icon">📜</div>
+                    <div>
+                        <h3>Phase I: Genesis & Inception</h3>
+                        <p>Creation of the ROASTER smart contract (with 100% chance of being bug-free, probably). Deployment of the website (this one!) and airdrop to the founders' moms for maximum decentralization. Initial meme production begins. This is our serious face.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="icon">🔥</div>
+                    <div>
+                        <h3>Phase II: The Great Burning</h3>
+                        <p>Community meme contest initiated. Winners receive eternal glory and a small amount of token. Development of a secret algorithm that ensures the most cringe posts on Twitter get publicly roasted first. We will hire a professional roaster (comedian) as a consultant, pay them in token, and then roast them.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="icon">🚀</div>
+                    <div>
+                        <h3>Phase III: Meme-Powered Liquidity</h3>
+                        <p>Listing on a CEX (if they're worthy). Partnership with a prominent influencer who will be mercilessly roasted in every post to prove our commitment to the mission. We will launch a decentralized autonomous organization (DAO) where community members vote on which cringe project to roast next. The voting will be done via a highly secure blockchain poll. This is a very serious project.  </p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="icon">🌍</div>
+                    <div>
+                        <h3>Phase IV: Global Roasting Supremacy</h3>
+                        <p>ROASTER becomes a household name. We will be mentioned in mainstream media articles that don't understand blockchain, and we will be fine with it. A partnership with Elon Musk is 100% on the table, if he agrees to be our first official roast target. The goal is to bring laughter and a little bit of chaos to every corner of the world.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <hr>
+
+            <!-- Team Section -->
+            <section id="team" class="section">
+                <h2>Our Degenerate Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://placehold.co/150x150" alt="Team Member 1">
+                        <h3>Meme Lord</h3>
+                        <p>Lead Roaster & Chief Meme Officer. Fluent in GIF, dreams in Dogecoin.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://placehold.co/150x150" alt="Team Member 2">
+                        <h3>The Architect</h3>
+                        <p>Smart Contract Dev. Finds joy in debugging Solidity and chaos.</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://placehold.co/150x150" alt="Team Member 3">
+                        <h3>The Hype Engine</h3>
+                        <p>Community Manager. Has a PhD in shitposting and community engagement.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 ROASTER. All rights reserved. The community is the real utility.</p>
+        </footer>
+    </div>
+    <script>
+        const allRoasts = [
+            "You have a face that would make onions cry.",
+            "I look at you and think, “Two billion years of evolution, for this?”",
+            "I am jealous of all the people that have never met you.",
+            "I consider you my sun. Now please get 93 million miles away from here.",
+            "If laughter is the best medicine, your face must be curing the world.",
+            "You’re not simply a drama queen/king. You’re the whole royal family.",
+            "I was thinking about you today. It reminded me to take out the trash.",
+            "You are the human version of cramps.",
+            "You haven’t changed since the last time I saw you. You really should.",
+            "If ignorance is bliss, you must be the happiest person on Earth.",
+            "Oh, sorry, did the middle of my sentence interrupt the beginning of yours?",
+            "Don’t worry, the first 40 years of childhood are always the hardest.",
+            "I love what you’ve done with your hair. How’d you get it to come out of your nose like that?",
+            "I never forget a person’s face, but I’ll be happy to make an exception in your situation.",
+            "Mirrors can’t talk. Lucky for you, they can’t laugh either.",
+            "When you were born, the doctors probably threw you out of the window, but the window threw you back.",
+            "Were you born this dumb, or did you have to take lessons?",
+            "Have a nice day…elsewhere.",
+            "If you were any more inbred, you’d be a sandwich",
+            "Every time I have a stick in my hand, you start to look more and more like a piñata.",
+            "Everyone is allowed to act stupid once in a while, but you’re really abusing the privilege.",
+            "Let’s play horse. I’ll be the front, and you can be yourself.",
+            "I didn’t mean to offend you, but I’ll take the additional perk.",
+            "You’re not pretty enough to have such an ugly personality.",
+            "If you’re going to be two-faced, at least make one of them pretty.",
+            "You just might be why the middle finger was invented in the first place.",
+            "Is your name Wi-Fi? Because I’m not feeling a connection.",
+            "If I was on a deserted island with you and a tin of corned beef, I’d rather eat you and talk to the corned beef.",
+            "Oh, you’re talking to me? I thought you only did that behind my back.",
+            "I’d smack you, but I’m against animal abuse.",
+            "I don’t dislike you, but if you were drowning, I’d give you a high-five.",
+            "It’s hilarious how you try to fit your entire vocabulary into one sentence.",
+            "I don’t want to rain on your parade! I’d rather summon a typhoon.",
+            "Did you know your incubator had tinted windows? That explains a lot.",
+            "You can’t imagine how much happiness you can bring…by leaving the room.",
+            "When I see you coming, I get pre-annoyed. I figure it’s smart to give myself a head start.",
+            "If I had a dollar every time you shut up, I would give it back as a thank you.",
+            "You are a pizza burn on the roof of the world’s mouth.",
+            "You’re the reason this country has to put directions on shampoo bottles.",
+            "You’re so annoying, you could make a Happy Meal cry.",
+            "“I’m not saying you’re ugly, but if you were a scarecrow, birds would avoid you.”",
+            "You should really come with a warning label.",
+            "Honey, the only thing bothering me is placed between your ears.",
+            "Earth is full. Go somewhere else.",
+            "The people who tolerate you daily are the real heroes.",
+            "I told my therapist about you. She didn’t believe me.",
+            "Somewhere tree is producing oxygen for you. I’m sorry for it.",
+            "You have your entire life to be an idiot. Why not take today off?",
+            "How many licks ’till I get to the interesting part of this conversation?",
+            "Why are you rolling your eyes? Looking for your brain?",
+            "You must have a Ph.D. in stupidology.",
+            "You are like a software update. Every time I see you, I immediately think, “Not now.”",
+            "All mistakes are fixable—except for you.",
+            "You’re the reason the divorce rate is so high.",
+            "Let me tell you. If I don’t answer you the first time, what makes you think the next 25 will work?",
+            "I gave out all my trophies a while ago, but here’s a participation award.",
+            "A glowstick has a brighter future than you.",
+            "It’s sad what happened to your face. Oh wait, that’s how it’s always looked?",
+            "I’m listening. I just need a minute to process so much stupid information at once.",
+            "When I look at you, I think to myself where have you been my whole life? And can you go back there?",
+            "Beauty is only skin deep, but ugly goes clean to the bone.",
+            "I would agree with you, but then we’d both be wrong.",
+            "You look like something that came out of a slow cooker.",
+            "It would be a great day if you accidentally used a glue stick instead of a Chapstick.",
+            "I bet I could remove 90 percent of your good looks with a moist towelette.",
+            "You’re so fake, even Barbie is jealous.",
+            "I suggest you do a little soul-searching – you may actually find one.",
+            "I know I make a lot of stupid choices, but hanging out with you was the worst of them all.",
+            "Stupidity isn’t a crime, so you’re free to go.",
+            "I was going to make a joke about your life, but I see life beat me to the punch.",
+            "It must be fun to wake up each morning knowing that you are that much closer to achieving your dreams of complete and utter mediocrity.",
+            "The truth will set you free: you’re the worst. Okay, you’re free to go.",
+            "You remind me of the end pieces of a loaf of bread—nobody wants you.",
+            "Calling you an idiot would be an insult to stupid people. You’re much worse than that.",
+            "It’s a parent’s job to raise their children right. So looking at you, it’s obvious that yours quit after just one day.",
+            "You’re like a grey sprinkle in a Funfetti cake.",
+            "You look like a “before” photo.",
+            "You have so many gaps in your teeth it looks like your tongue is in jail.",
+            "Do your parents realize they’re living proof that two wrongs don’t make a right?",
+            "Hurting you is the last thing I want to do, but it’s still on the list.",
+            "You’re like the human version of athlete’s foot—annoying and hard to get rid of.",
+            "Oops, my bad. I could’ve sworn I was dealing with an adult.",
+            "You’re the reason gene pools need lifeguards.",
+            "You’re like a grey cloud. It’s a beautiful day when you disappear.",
+            "Light travels faster than sound, which is why you seemed bright until you spoke.",
+            "I’ve seen clowns like you before, but I always had to pay an admission fee.",
+            "Grab a straw because you suck.",
+            "I like the way you comb your hair. It’s impressive how you’re able to hide the horns.",
+            "Good story, but in what chapter do you shut up?",
+            "You need a kiss on the neck from an alligator.",
+            "It’s too bad you can’t photoshop your ugly personality.",
+            "Give me a minute. I’m trying to think of an insult simple enough for you to understand!",
+            "If your brain was dynamite, there wouldn’t be enough to blow your hat off.",
+            "Congrats on being the top of the bell curve.",
+            "I really hope you don’t homeschool your kids.",
+            "I hope your wife brings a date to your funeral.",
+            "Please just tell me you don’t plan to home-school your kids.",
+            "Don’t be ashamed of who you are. That’s a job for your parents.",
+            "You see that door? I’d love if you were on the other side of it.",
+            "Sorry, sarcasm falls out of my mouth like stupidity falls out of yours.",
+            "I will slap you so hard that even Google won’t be able to find you.",
+            "Your secrets are always safe with me! I never even listen when you tell me.",
+            "Hey, your village called. They want their idiot back!",
+            "Your family tree must be a cactus because you’re all a bunch of pricks.",
+            "Why don’t you check out eBay and see if they have a life for sale?",
+            "So a thought crossed your mind? That must have been a long and lonely journey for you.",
+            "How long does it take you to put makeup on your two faces every morning?",
+            "Don’t feel bad. A lot of people have no talent.",
+            "I thought I had the flu, but then I realized your face makes me sick to my stomach.",
+            "I would punch you, but I don’t want to improve the appearance of your face."
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateBtn = document.getElementById('generate-btn');
+            const roastBox = document.getElementById('roast-box');
+            const roastTextElement = document.getElementById('roast-text');
+            const tokenAddressBox = document.getElementById('token-address-box');
+            const tokenAddressElement = document.getElementById('token-address');
+
+            let availableRoasts = [...allRoasts];
+
+            function getRandomRoast() {
+                if (availableRoasts.length === 0) {
+                    availableRoasts = [...allRoasts];
+                }
+                const randomIndex = Math.floor(Math.random() * availableRoasts.length);
+                const selectedRoast = availableRoasts[randomIndex];
+                availableRoasts.splice(randomIndex, 1);
+                return selectedRoast;
+            }
+
+            // Button click handler
+            generateBtn.addEventListener('click', () => {
+                const roast = getRandomRoast();
+                roastTextElement.textContent = roast;
+                roastBox.classList.add('shake-animation');
+                
+                setTimeout(() => {
+                    roastBox.classList.remove('shake-animation');
+                }, 500);
+            });
+
+            // Copy roast text on click
+            roastBox.addEventListener('click', () => {
+                const textToCopy = roastTextElement.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = roastTextElement.textContent;
+                    roastTextElement.textContent = "COPIED!";
+                    setTimeout(() => {
+                        roastTextElement.textContent = originalText;
+                    }, 1000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // Copy token address on click
+            tokenAddressBox.addEventListener('click', () => {
+                const addressText = tokenAddressElement.textContent.replace('CA: ', '').trim();
+                navigator.clipboard.writeText(addressText).then(() => {
+                    const originalText = tokenAddressElement.textContent;
+                    tokenAddressElement.textContent = "COPIED!";
+                    setTimeout(() => {
+                        tokenAddressElement.textContent = originalText;
+                    }, 1000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
