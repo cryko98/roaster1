@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROASTER - The Ultimate Crypto Roast Generator</title>
+    <title>$ROASTER - The Ultimate Crypto Roast Generator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #fedd59;
@@ -46,7 +48,7 @@
         }
 
         body {
-            font-family: 'Bangers', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
@@ -111,6 +113,7 @@
         }
 
         .tagline {
+            font-family: 'Poppins', sans-serif;
             font-size: 1.5rem;
             color: #000;
             margin-top: 0.5rem;
@@ -150,6 +153,7 @@
         }
 
         .roast-text {
+            font-family: 'Luckiest Guy', sans-serif;
             font-size: 2rem;
             font-weight: 700;
             color: #000;
@@ -162,6 +166,7 @@
             color: #000;
             border: none;
             padding: 1rem 3rem;
+            font-family: 'Luckiest Guy', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
             border-radius: 5px;
@@ -190,12 +195,23 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
 
-        .token-address-box p {
+        .token-address {
             margin: 0;
-            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
             color: #000;
             font-weight: bold;
             text-shadow: none;
+        }
+        
+        .token-address-ca {
+            font-family: 'Luckiest Guy', sans-serif;
+            font-size: 1.75rem;
+            color: #000;
+            font-weight: 700;
+            text-shadow: none;
+            display: inline-block;
+            margin-right: 0.5rem;
         }
 
         .section {
@@ -209,6 +225,7 @@
         }
         
         .section h2 {
+            font-family: 'Luckiest Guy', sans-serif;
             text-align: center;
             font-size: 3.5rem;
             font-weight: 700;
@@ -218,7 +235,7 @@
         }
 
         .lore-text p {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 1.25rem;
             line-height: 1.8;
             color: #333;
@@ -248,13 +265,14 @@
         }
 
         .roadmap-item h3 {
+            font-family: 'Luckiest Guy', sans-serif;
             font-size: 1.5rem;
             color: var(--text-color);
             text-shadow: 1px 1px 0 #000;
         }
 
         .roadmap-item p {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 1rem;
             color: #555;
             text-shadow: none;
@@ -284,12 +302,13 @@
         }
 
         .team-member h3 {
+            font-family: 'Luckiest Guy', sans-serif;
             font-size: 1.5rem;
             color: #000;
         }
 
         .team-member p {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 0.9rem;
             color: #444;
         }
@@ -361,7 +380,7 @@
 
                 <!-- New text box for the token address -->
                 <div id="token-address-box" class="token-address-box">
-                    <p id="token-address">CA: 0xAbcDeFg1234567890aBcDeFg1234567890aBcDeF</p>
+                    <p id="token-address" class="token-address"><span class="token-address-ca">CA:</span> 0xAbcDeFg1234567890aBcDeFg1234567890aBcDeF</p>
                 </div>
             </section>
             
